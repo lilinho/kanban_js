@@ -1,14 +1,45 @@
 <!DOCTYPE HTML>
 <html lang="pl">
-    <head>
-        <meta charset="utf-8">
-        <title>Kanban</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-    </head>
-    <body>
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script type="text/javascript" src="js/scripts.js"></script>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <title>Kanban</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body>
+    
+    <!-- TOP BAR -->
+    
+    <nav class="nav d-flex justify-content-between align-items-center">
+        <span class="app-title">Kanban</span>
+        <a class="nav-link" id="addColumn" href="#">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Add Column
+            </a>
+    </nav>
+    
+    <!-- CONTAINER FOR COLUMNS -->
+    <!-- 
+    IDEA: 
+    IN EACH LIST ITEM THERE WILL BE ORDERED LIST REPRESENTING CARDS. BASICALLY:
+    UL
+        LI (COLUMN)
+            OL
+                LI (CARD)
+                LI (CARD)
+            /OL
+        /LI    
+    /UL
+    -->
+    
+    <ul class="column-container" id="board">
+    </ul>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+</body>
+
 </html>

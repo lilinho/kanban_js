@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster');
+
+body {
+    background-image: url('../images/bg.png');
+}
+
+.nav {
+    background-color: beige;
+}
+
+.nav .app-title {
+    font-family: 'Lobster', cursive;
+    color: dodgerblue;
+    font-size: 40px;
+    margin: 10px;
+}
+
+.nav .fa {
+    padding: 5px;
+}
