@@ -1,7 +1,6 @@
 /*
 TODO
-* styles for columns and cards
-* styles for buttons (add, remove)
+* styles for cards (columns and buttons are done I think)
 * addColumn function (i don't know if it's necessary)
 * sortable (jQueryUI)
 * addCard functionality
@@ -31,13 +30,14 @@ function Column(name) {
     this.$element = createColumn();
     
     function createColumn() {
-        var $column = $('<li>').addClass("column");
-        var $columnTitle = $('<figure>').text('column-title').text(self.name);
+        var $column = $('<li>').addClass("column col-sm-2");
+        var $columnTitle = $('<figure>').addClass('column-title d-flex').html(
+            '<span class="mr-auto p-2">' + self.name + '</span>');
         var $columnCardList = $('<ol>').addClass('card-list');
-        var $deleteButton = $('<button>').addClass('btn-delete').html(
+        var $deleteButton = $('<button>').addClass('btn-delete p-2').html(
         '<i class="fa fa-trash" aria-hidden="true"></i>'
         );
-        var $addCard = $('<button>').addClass('btn-add').html(
+        var $addCard = $('<button>').addClass('btn-add p-2').html(
         '<i class="fa fa-plus" aria-hidden="true"></i>'
         );
         
@@ -49,18 +49,23 @@ function Column(name) {
             self.addCard();
         })
         
+        $columnTitle.append($addCard)
+            .append($deleteButton)
         $column.append($columnTitle)
-               .append($columnCardList)
-               .append($addCard)
-               .append($deleteButton);
+               .append($columnCardList);
         
         return $column;
     }
      
 }
 
-    var col1 = new Column("cos");
+    var col1 = new Column("cos 1");
+    var col2 = new Column("cos 2");
+    var col3 = new Column("cos 3");
+    
     $("#board").append(col1.$element);
+    $("#board").append(col2.$element);
+    $("#board").append(col3.$element);
     
 $('#addColumn').click(function() {
     var name = prompt('Column name');

@@ -4,8 +4,7 @@ Based on Bootstrap, jQuery and jQuery UI
 
 /*
 TODO
-* styles for columns and cards
-* styles for buttons (add, remove)
+* styles for cards (columns and buttons are done I think)
 * addColumn function (i don't know if it's necessary)
 * sortable (jQueryUI)
 * addCard functionality

@@ -1,20 +1,65 @@
 @import url('https://fonts.googleapis.com/css?family=Lobster');
 
 body {
-    background-image: url('../images/bg.png');
+    background-color: #E6EBE0;
 }
 
 .nav {
-    background-color: beige;
+    background-color: #ED6A5A;
 }
 
+.nav .nav-link {
+    color: #F4F1BB!important;
+}
 .nav .app-title {
     font-family: 'Lobster', cursive;
-    color: dodgerblue;
+    color: #F4F1BB;
     font-size: 40px;
     margin: 10px;
 }
 
 .nav .fa {
     padding: 5px;
+}
+
+.column-container {
+    list-style-type: none;
+}
+
+.column-container figure {
+}
+.column-container .column {
+    float: left;
+    margin: 10px;
+    height: 500px;
+    padding: 0;
+    background-color: #9BC1BC;
+    border-radius: 20px;
+}
+
+.column-container .column .column-title {
+    width: 100%;
+    height: 40px;
+    background-color: #5CA4A9;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.column-container .column [class*='btn-'] {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.column-container .column [class*='btn-']:hover {
+    color: #F4F1BB;
+}
+
+.column-container .column span {
+    margin-left: 10px;
+    cursor: move;
+}
+
+.column-container .column [class*='btn-']:last-child {
+    margin-right: 10px;
 }
