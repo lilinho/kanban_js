@@ -25,16 +25,19 @@ body {
 .column-container {
     list-style-type: none;
     padding: 0;
+    min-height: 500px;
+    margin: 0;
 }
 
 .column .card-list {
     list-style-type: none;
-    padding: 5px;
+    padding: 10px 5px;
 }
 .column {
     float: left;
     margin: 10px;
-    height: 500px;
+    height: auto;
+    min-height: 500px;
     padding: 0;
     background-color: #9BC1BC;
     border-radius: 20px;
@@ -46,6 +49,7 @@ body {
     background-color: #5CA4A9;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
+    margin: 0;
 }
 
 .column-container .column [class*='btn-'] {
@@ -87,7 +91,15 @@ body {
     color: black!important;
 }
 
-.place-holder {
+.place-holder-y {
     background-color: transparent;
     border: 2px black dashed;
+    height: 30px;
+}
+
+.place-holder-x {
+    background-color: transparent;
+    border: 2px black dashed;
+    width: 100px;
+    height: 500px;
 }

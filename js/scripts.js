@@ -1,7 +1,7 @@
 /*
 TODO
-* work on css. I think I forgot about something
-* sortable (jQueryUI) - work on css place-holder
+* work on css. (fonts, etc)
+* sortable (jQueryUI) - FIX HORIZONTAL PLACEHOLDER
 */
 
 $(function () {
@@ -108,11 +108,25 @@ $(function () {
     }
 
     //initSortable. For drop and draf. Requires jQuery UI
-    function initSortable(className) {
-        $(className).sortable({
-            connectWith: className,
-            placeholder: 'place-holder'
+    function initSortable() {
+        
+        $('.column-container').sortable({
+            connectWith: '.column-container',
+            placeholder: 'place-holder-x',
+            scroll: false,
+            opacity: 0.5,
+            revert: true,
+            axis: 'x'
         }).disableSelection();
+        
+        $('.card-list').sortable({
+            connectWith: '.card-list',
+            placeholder: 'place-holder-y',
+            scroll: false,
+            opacity: 0.5,
+            revert: true
+        }).disableSelection();
+            
     }
     //TESTING
     var col1 = new Column("cos 1");
@@ -122,8 +136,7 @@ $(function () {
     $("#board").append(col1.$element);
     $("#board").append(col2.$element);
     $("#board").append(col3.$element);
-    initSortable('.column-container');
-    initSortable('.card-list');
+    initSortable();
     
     // listener for adding new column.
     // simple append new object to DOM
@@ -132,7 +145,6 @@ $(function () {
 
         var col = new Column(name);
         $("#board").append(col.$element);
-        initSortable('.column-container');
-        initSortable('.card-list');
+        initSortable();
     })
 })
