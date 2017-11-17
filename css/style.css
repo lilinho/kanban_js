@@ -24,11 +24,14 @@ body {
 
 .column-container {
     list-style-type: none;
+    padding: 0;
 }
 
-.column-container figure {
+.column .card-list {
+    list-style-type: none;
+    padding: 5px;
 }
-.column-container .column {
+.column {
     float: left;
     margin: 10px;
     height: 500px;
@@ -37,7 +40,7 @@ body {
     border-radius: 20px;
 }
 
-.column-container .column .column-title {
+.column-title {
     width: 100%;
     height: 40px;
     background-color: #5CA4A9;
@@ -62,4 +65,29 @@ body {
 
 .column-container .column [class*='btn-']:last-child {
     margin-right: 10px;
+}
+
+.card {
+    background-color: #f4f1bb;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: move;
+    margin: 2px 0;
+}
+
+.card .btn-delete {
+    width: 30px;
+    padding: 2px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.card .btn-delete:hover {
+    color: black!important;
+}
+
+.place-holder {
+    background-color: transparent;
+    border: 2px black dashed;
 }
