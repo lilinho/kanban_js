@@ -1,7 +1,6 @@
 /*
 TODO
-* work on css. (fonts, etc)
-* sortable (jQueryUI) - FIX HORIZONTAL PLACEHOLDER
+* work on css. (.fa behaviour on lower widths)
 */
 
 $(function () {
@@ -35,7 +34,7 @@ $(function () {
             And ordered list for cards    
             */
             var $column = $('<li>').addClass("column col-sm-2");
-            var $columnTitle = $('<figure>').addClass('column-title d-flex').html(
+            var $columnTitle = $('<figure>').addClass('column-title').html(
                 '<span class="mr-auto p-2">' + self.name + '</span>');
             var $columnCardList = $('<ol>').addClass('card-list');
             var $deleteButton = $('<button>').addClass('btn-delete p-2').html(
@@ -51,7 +50,10 @@ $(function () {
             });
 
             $addCard.click(function () {
-                self.addCard(new Card(prompt("Enter name for a card")));
+                var description = prompt("Enter text");
+                
+                if (description.length != 0)
+                    self.addCard(new Card(description));
             })
 
             $columnTitle.append($addCard)
@@ -106,8 +108,7 @@ $(function () {
             this.$element.remove();
         }
     }
-
-    //initSortable. For drop and draf. Requires jQuery UI
+    //initSortable. For drop and drag. Requires jQuery UI
     function initSortable() {
         
         $('.column-container').sortable({
@@ -116,7 +117,8 @@ $(function () {
             scroll: false,
             opacity: 0.5,
             revert: true,
-            axis: 'x'
+			axis: 'x',
+            tolerance: 'pointer'
         }).disableSelection();
         
         $('.card-list').sortable({
@@ -124,14 +126,15 @@ $(function () {
             placeholder: 'place-holder-y',
             scroll: false,
             opacity: 0.5,
-            revert: true
+            revert: true,
+            tolerante: 'pointer'
         }).disableSelection();
             
     }
     //TESTING
-    var col1 = new Column("cos 1");
-    var col2 = new Column("cos 2");
-    var col3 = new Column("cos 3");
+    var col1 = new Column("ToDo");
+    var col2 = new Column("In Progress");
+    var col3 = new Column("Done");
 
     $("#board").append(col1.$element);
     $("#board").append(col2.$element);
@@ -142,9 +145,9 @@ $(function () {
     // simple append new object to DOM
     $('#addColumn').click(function () {
         var name = prompt('Enter column name');
-
-        var col = new Column(name);
-        $("#board").append(col.$element);
-        initSortable();
+        if (name.length != 0) {
+            var col = new Column(name);
+            $("#board").append(col.$element);
+        }
     })
 })

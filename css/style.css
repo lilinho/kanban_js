@@ -1,11 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Lobster');
+@import url('https://fonts.googleapis.com/css?family=Lobster|Poppins|Arvo');
 
 body {
     background-color: #E6EBE0;
 }
 
+/* NAVIGATION */
+
 .nav {
-    background-color: #ED6A5A;
+    background-color: #227579;
 }
 
 .nav .nav-link {
@@ -22,17 +24,18 @@ body {
     padding: 5px;
 }
 
+/* END OF NAVIGATION */
+
+/* DISPLAY OF COLUMNS */
+
 .column-container {
     list-style-type: none;
     padding: 0;
     min-height: 500px;
     margin: 0;
+    position: relative;
 }
 
-.column .card-list {
-    list-style-type: none;
-    padding: 10px 5px;
-}
 .column {
     float: left;
     margin: 10px;
@@ -45,11 +48,14 @@ body {
 
 .column-title {
     width: 100%;
-    height: 40px;
+    height: auto;
+    min-height: 40px;
     background-color: #5CA4A9;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     margin: 0;
+    font-family: 'Poppins', sans-serif;
+    vertical-align: middle;
 }
 
 .column-container .column [class*='btn-'] {
@@ -70,6 +76,14 @@ body {
 .column-container .column [class*='btn-']:last-child {
     margin-right: 10px;
 }
+.column .card-list {
+    list-style-type: none;
+    padding: 10px 5px;
+}
+
+/* END OF DISPLAY OF COLUMNS */
+
+/* DISP:AY OF CARDS */
 
 .card {
     background-color: #f4f1bb;
@@ -77,6 +91,7 @@ body {
     padding: 5px;
     cursor: move;
     margin: 2px 0;
+    font-family: 'Arvo', serif;
 }
 
 .card .btn-delete {
@@ -91,15 +106,23 @@ body {
     color: black!important;
 }
 
-.place-holder-y {
+/* END OF CARD DISPLAY */
+
+/* PLACEHOLDERS FOR jQuery SORTABLE */
+
+.place-holder-y { /* placeholder for cards */
     background-color: transparent;
-    border: 2px black dashed;
+    border: 2px dashed rgba(0,0,0,.5);
     height: 30px;
+    border-radius: 10px;
 }
 
-.place-holder-x {
+.place-holder-x { /* placeholder for columns */
     background-color: transparent;
-    border: 2px black dashed;
+    border: 2px dashed rgba(0,0,0,.5);
     width: 100px;
     height: 500px;
+    float: left;
+    border-radius: 20px;
+    margin: 10px;
 }
