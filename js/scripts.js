@@ -1,6 +1,6 @@
 /*
 TODO
-* work on css. (.fa behaviour on lower widths)
+ALL DONE
 */
 
 $(function () {
@@ -33,8 +33,8 @@ $(function () {
             In 'li' there will be title (<figure>), buttons for deleting column and adding card (in <figure> tag)
             And ordered list for cards    
             */
-            var $column = $('<li>').addClass("column col-sm-2");
-            var $columnTitle = $('<figure>').addClass('column-title').html(
+            var $column = $('<li>').addClass("column");
+            var $columnTitle = $('<figure>').addClass('column-title d-flex').html(
                 '<span class="mr-auto p-2">' + self.name + '</span>');
             var $columnCardList = $('<ol>').addClass('card-list');
             var $deleteButton = $('<button>').addClass('btn-delete p-2').html(
@@ -118,7 +118,8 @@ $(function () {
             opacity: 0.5,
             revert: true,
 			axis: 'x',
-            tolerance: 'pointer'
+            tolerance: 'pointer',
+            handle: '.column-title'
         }).disableSelection();
         
         $('.card-list').sortable({
