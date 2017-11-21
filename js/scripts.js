@@ -1,6 +1,7 @@
 /*
 TODO
-ALL DONE
+* fix moving cards from one column to another
+* AJAX/API
 */
 
 $(function () {

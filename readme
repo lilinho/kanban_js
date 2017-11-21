@@ -4,5 +4,6 @@ Based on Bootstrap, jQuery and jQuery UI
 
 /*
 TODO
-ALL DONE
+* fix moving cards from one column to another
+* AJAX/API
 */
