@@ -2,7 +2,7 @@ function Column(id, name) {
 
         var self = this;
         this.id = id;
-        this.name = name;
+        this.name = name || "No name given";
 
         this.$element = createColumn();
 
@@ -31,10 +31,21 @@ function Column(id, name) {
 
             $addCard.click(function () {
                 var description = prompt("Enter text");
-                
-                if (description.length != 0)
-                    self.addCard(new Card(description));
-            })
+                if(description.length != 0)
+                $.ajax({
+                    url: baseURL + '/card',
+                    method: 'POST',
+                    data: {
+                        name: description,
+                        bootcamp_kanban_column_id: self.id
+                    },
+                    success: function(response) {
+                        self.addCard(new Card(response.id, description));
+                    }
+
+                });
+                    
+            });
 
             $columnTitle.append($addCard)
                 .append($deleteButton);
@@ -47,10 +58,18 @@ function Column(id, name) {
     }
     // Prototypes for column class
     Column.prototype = {
-        removeColumn: function () { // removing column from DOM
-            this.$element.remove();
+        removeColumn: function () { // removing column from server and DOM
+            var self = this;
+            $.ajax({
+                url: baseURL + '/column/' + self.id,
+                method: 'DELETE',
+                success: function(response) {
+                    self.$element.remove();
+                }
+
+            });
         },
         addCard: function (Card) { // adding card to column
             this.$element.children('ol').append(Card.$element);
         }
-    }
+    };
