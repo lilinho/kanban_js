@@ -57,7 +57,6 @@ body {
     margin: 0;
     padding: 5px;
     font-family: 'Poppins', sans-serif;
-    cursor: move;
 }
 
 .column-container .column [class*='btn-'] {
@@ -120,12 +119,3 @@ body {
     border-radius: 10px;
 }
 
-.place-holder-x { /* placeholder for columns */
-    background-color: transparent;
-    border: 2px dashed rgba(0,0,0,.5);
-    width: 250px;
-    height: 500px;
-    float: left;
-    border-radius: 20px;
-    margin: 10px;
-}

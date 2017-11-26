@@ -1,70 +1,72 @@
-	// Function for generate ids (random string)
-	var baseURL = 'https://kodilla.com/pl/bootcamp-api';
-	var myHeaders = {
-		'X-Client-Id': '2494',
-  		'X-Auth-Token': '31cc78e3a866116142bc0dbbaaacd288'
-	};
+var baseURL = 'https://kodilla.com/pl/bootcamp-api';
 
-	$.ajaxSetup({
-		headers: myHeaders
-	});
+var myHeaders = {
+    'X-Client-Id': '2494',
+    'X-Auth-Token': '31cc78e3a866116142bc0dbbaaacd288'
+};
+
+$.ajaxSetup({
+    headers: myHeaders
+});
 
 
-	$.ajax({
-		url: baseURL + '/board',
-		method: 'GET',
-		success: function(response) {
-			setupColumns(response.columns);
-		}
-	});
+/*
+I had to remove sortable for columns because API doesn't support this option.
 
-	function setupColumns(columns){
-		columns.forEach(function(column) {
-			var col = new Column(column.id, column.name);
-			$("#board").append(col.$element);
-			setupCards(col, column.cards);
-		});
-	}
+Added receive function. After dragging is finished function in receive is called. 
+It changes old column id to new one.
+*/
+function initSortable() {
 
-	function setupCards(column, cards) {
-		cards.forEach(function(card) {
-			var c = new Card(card.id, card.description, card.col_id);
-			column.append(c.$element);
-		});
-	}
+    $('.card-list').sortable({
+        connectWith: '.card-list',
+        placeholder: 'place-holder-y',
+        scroll: false,
+        opacity: 0.5,
+        revert: true,
+        tolerante: 'pointer',
+        receive: function (event, ui) {
+            $.ajax({
+                url: baseURL + '/card/' + ui.item.attr("id"),
+                method: 'PUT',
+                data: {
+                    name: $(this).text(),
+                    bootcamp_kanban_column_id: ui.item.parents()[1].id
+                }
+            });
+        }
+    }).disableSelection();
 
-	 function initSortable() {
-        
-        $('.column-container').sortable({
-            connectWith: '.column-container',
-            placeholder: 'place-holder-x',
-            scroll: false,
-            opacity: 0.5,
-            revert: true,
-			axis: 'x',
-            tolerance: 'pointer',
-            handle: '.column-title'
-        }).disableSelection();
-        
-        $('.card-list').sortable({
-            connectWith: '.card-list',
-            placeholder: 'place-holder-y',
-            scroll: false,
-            opacity: 0.5,
-            revert: true,
-            tolerante: 'pointer'
-        }).disableSelection();
-            
+}
+
+// ajax request for current state of kanban board
+
+$.ajax({
+    url: baseURL + '/board',
+    method: 'GET',
+    success: function (response) {
+        setupColumns(response.columns);
     }
-	//var col1 = new Column("ToDo");
-	//var col2 = new Column("In Progress");
-	//var col3 = new Column("Done");
+});
 
-	//$("#board").append(col1.$element);
-	//$("#board").append(col2.$element);
-	//$("#board").append(col3.$element);
-	
+
+function setupColumns(columns) {
+    columns.forEach(function (column) {
+        var col = new Column(column.id, column.name);
+        $("#board").append(col.$element);
+        initSortable();
+        setupCards(col, column.cards);
+    });
+}
+
+function setupCards(column, cards) {
+    cards.forEach(function (card) {
+        var c = new Card(card.id, card.name, card.bootcamp_kanban_column_id);
+        column.$element.children('ol').append(c.$element);
+        initSortable();
+    });
+}
+
+
+
 initSortable();
-	    // listener for adding new column.
-	    // simple append new object to DOM
-	

@@ -1,5 +1,5 @@
 /*
-npm install grunt-contrib-jshint grunt-contrib-concat --save-dev
+npm install grunt grunt-contrib-jshint grunt-contrib-concat --save-dev
 */
 
 module.exports = function(grunt) {

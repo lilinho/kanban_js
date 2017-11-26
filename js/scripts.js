@@ -3,38 +3,39 @@
 */
 function Column(id, name) {
 
-        var self = this;
-        this.id = id;
-        this.name = name || "No name given";
+    var self = this;
+    this.id = id;
+    this.name = name || "No name given";
 
-        this.$element = createColumn();
+    this.$element = createColumn();
 
-        function createColumn() { // creating column in DOM
 
-            /*
-            First we create list element (see comment in index.html).
-            In 'li' there will be title (<figure>), buttons for deleting column and adding card (in <figure> tag)
-            And ordered list for cards    
-            */
-            var $column = $('<li>').addClass("column");
-            var $columnTitle = $('<figure>').addClass('column-title d-flex').html(
-                '<span class="mr-auto p-2">' + self.name + '</span>');
-            var $columnCardList = $('<ol>').addClass('card-list');
-            var $deleteButton = $('<button>').addClass('btn-delete p-2').html(
-                '<i class="fa fa-trash" aria-hidden="true"></i>'
-            );
-            var $addCard = $('<button>').addClass('btn-add p-2').html(
-                '<i class="fa fa-plus" aria-hidden="true"></i>'
-            );
+    function createColumn() { // creating column in DOM
 
-            // event handlers
-            $deleteButton.click(function () {
-                self.removeColumn();
-            });
+        /*
+        First we create list element (see comment in index.html).
+        In 'li' there will be title (<figure>), buttons for deleting column and adding card (in <figure> tag)
+        And ordered list for cards    
+        */
+        var $column = $('<li>').addClass("column").attr('id', String(self.id));
+        var $columnTitle = $('<figure>').addClass('column-title d-flex').html(
+            '<span class="mr-auto p-2">' + self.name + '</span>');
+        var $columnCardList = $('<ol>').addClass('card-list');
+        var $deleteButton = $('<button>').addClass('btn-delete p-2').html(
+            '<i class="fa fa-trash" aria-hidden="true"></i>'
+        );
+        var $addCard = $('<button>').addClass('btn-add p-2').html(
+            '<i class="fa fa-plus" aria-hidden="true"></i>'
+        );
 
-            $addCard.click(function () {
-                var description = prompt("Enter text");
-                if(description.length != 0)
+        // event handlers
+        $deleteButton.click(function () {
+            self.removeColumn();
+        });
+
+        $addCard.click(function () {
+            var description = prompt("Enter text");
+            if (description.length != 0)
                 $.ajax({
                     url: baseURL + '/card',
                     method: 'POST',
@@ -42,175 +43,176 @@ function Column(id, name) {
                         name: description,
                         bootcamp_kanban_column_id: self.id
                     },
-                    success: function(response) {
+                    success: function (response) {
                         self.addCard(new Card(response.id, description));
                     }
 
                 });
-                    
-            });
 
-            $columnTitle.append($addCard)
-                .append($deleteButton);
-            $column.append($columnTitle)
-                .append($columnCardList);
+        });
 
-            return $column;
-        }
+        $columnTitle.append($addCard)
+            .append($deleteButton);
+        $column.append($columnTitle)
+            .append($columnCardList);
+        return $column;
+    }
+}
+// Prototypes for column class
+Column.prototype = {
+    removeColumn: function () { // removing column from server and DOM
+        var self = this;
+        $.ajax({
+            url: baseURL + '/column/' + self.id,
+            method: 'DELETE',
+            success: function (response) {
+                self.$element.remove();
+            }
+
+        });
+    },
+    addCard: function (Card) { // adding card to column
+        this.$element.children('ol').append(Card.$element);
+        // initSortable();
 
     }
-    // Prototypes for column class
-    Column.prototype = {
-        removeColumn: function () { // removing column from server and DOM
-            var self = this;
-            $.ajax({
-                url: baseURL + '/column/' + self.id,
-                method: 'DELETE',
-                success: function(response) {
-                    self.$element.remove();
-                }
-
-            });
-        },
-        addCard: function (Card) { // adding card to column
-            this.$element.children('ol').append(Card.$element);
-        }
-    };
+};
 /*
 #### js_src/Card.js ####
 */
 // class for Card
-    function Card(id, description) {
+function Card(id, description) {
 
-        var self = this;
+    var self = this;
 
-        this.id = id;
-        this.description = description || "No name given";
-        this.$element = createCard();
+    this.id = id;
+    this.description = description || "No name given";
+    this.$element = createCard();
 
-        function createCard() { //creating single card. similar to createColumn();
-            $card = $('<li>').addClass("card");
-            $cardDescription = $('<p>').addClass("card-descriptioin").text(self.description);
-            $removeCard = $('<button>').addClass("btn-delete").html(
-                '<i class="fa fa-trash" aria-hidden="true"></i>'
-            );
+    function createCard() { //creating single card. similar to createColumn();
+        $card = $('<li>').addClass("card").attr("id", String(self.id));
+        $cardDescription = $('<p>').addClass("card-descriptioin").text(self.description);
+        $removeCard = $('<button>').addClass("btn-delete").html(
+            '<i class="fa fa-trash" aria-hidden="true"></i>'
+        );
 
-            $removeCard.click(function () {
-                self.removeCard();
-            });
-            $card.append($removeCard)
-                .append($cardDescription);
+        $removeCard.click(function () {
+            self.removeCard();
+        });
+        $card.append($removeCard)
+            .append($cardDescription);
 
-            return $card;
-        }
+        return $card;
     }
+}
 
-    //prototypes for Card class
-    Card.prototype = {
-        removeCard: function () {
-            var self = this;
-            $.ajax({
-                url: baseURL + '/card/' + self.id,
-                method: 'DELETE',
-                success: function(response) {
-                    self.$element.remove();
-                }
-            });
-            
-        }
-    };
+//prototypes for Card class
+Card.prototype = {
+    removeCard: function () {
+        var self = this;
+        $.ajax({
+            url: baseURL + '/card/' + self.id,
+            method: 'DELETE',
+            success: function (response) {
+                self.$element.remove();
+            }
+        });
+
+    }
+};
 /*
 #### js_src/Board.js ####
 */
-
-
 $('#addColumn').click(function () {
-	  	var columnName = prompt('Enter column name');
-	   	if (columnName.length != 0) {
+    var columnName = prompt('Enter column name');
+    if (columnName.length != 0) {
 
-	   		$.ajax({
-	   			url: baseURL + '/column',
-	   			method: 'POST',
-	   			data: {
-	   				name: columnName 
-	   			},
-	   			success: function(response) {
-	   				var col = new Column(response.id, columnName);
-	   				$("#board").append(col.$element);
-	   			}
-	   		});
-	   	}
-	});
+        $.ajax({
+            url: baseURL + '/column',
+            method: 'POST',
+            data: {
+                name: columnName
+            },
+            success: function (response) {
+                var col = new Column(response.id, columnName);
+                $("#board").append(col.$element);
+                initSortable();
+            }
+        });
+    }
+});
 /*
 #### js_src/App.js ####
 */
-	// Function for generate ids (random string)
-	var baseURL = 'https://kodilla.com/pl/bootcamp-api';
-	var myHeaders = {
-		'X-Client-Id': '2494',
-  		'X-Auth-Token': '31cc78e3a866116142bc0dbbaaacd288'
-	};
+var baseURL = 'https://kodilla.com/pl/bootcamp-api';
 
-	$.ajaxSetup({
-		headers: myHeaders
-	});
+var myHeaders = {
+    'X-Client-Id': '2494',
+    'X-Auth-Token': '31cc78e3a866116142bc0dbbaaacd288'
+};
+
+$.ajaxSetup({
+    headers: myHeaders
+});
 
 
-	$.ajax({
-		url: baseURL + '/board',
-		method: 'GET',
-		success: function(response) {
-			setupColumns(response.columns);
-		}
-	});
+/*
+I had to remove sortable for columns because API doesn't support this option.
 
-	function setupColumns(columns){
-		columns.forEach(function(column) {
-			var col = new Column(column.id, column.name);
-			$("#board").append(col.$element);
-			setupCards(col, column.cards);
-		});
-	}
+Added receive function. After dragging is finished function in receive is called. 
+It changes old column id to new one.
+*/
+function initSortable() {
 
-	function setupCards(column, cards) {
-		cards.forEach(function(card) {
-			var c = new Card(card.id, card.description, card.col_id);
-			column.append(c.$element);
-		});
-	}
+    $('.card-list').sortable({
+        connectWith: '.card-list',
+        placeholder: 'place-holder-y',
+        scroll: false,
+        opacity: 0.5,
+        revert: true,
+        tolerante: 'pointer',
+        receive: function (event, ui) {
+            $.ajax({
+                url: baseURL + '/card/' + ui.item.attr("id"),
+                method: 'PUT',
+                data: {
+                    name: $(this).text(),
+                    bootcamp_kanban_column_id: ui.item.parents()[1].id
+                }
+            });
+        }
+    }).disableSelection();
 
-	 function initSortable() {
-        
-        $('.column-container').sortable({
-            connectWith: '.column-container',
-            placeholder: 'place-holder-x',
-            scroll: false,
-            opacity: 0.5,
-            revert: true,
-			axis: 'x',
-            tolerance: 'pointer',
-            handle: '.column-title'
-        }).disableSelection();
-        
-        $('.card-list').sortable({
-            connectWith: '.card-list',
-            placeholder: 'place-holder-y',
-            scroll: false,
-            opacity: 0.5,
-            revert: true,
-            tolerante: 'pointer'
-        }).disableSelection();
-            
+}
+
+// ajax request for current state of kanban board
+
+$.ajax({
+    url: baseURL + '/board',
+    method: 'GET',
+    success: function (response) {
+        setupColumns(response.columns);
     }
-	//var col1 = new Column("ToDo");
-	//var col2 = new Column("In Progress");
-	//var col3 = new Column("Done");
+});
 
-	//$("#board").append(col1.$element);
-	//$("#board").append(col2.$element);
-	//$("#board").append(col3.$element);
-	
+
+function setupColumns(columns) {
+    columns.forEach(function (column) {
+        var col = new Column(column.id, column.name);
+        $("#board").append(col.$element);
+        initSortable();
+        setupCards(col, column.cards);
+    });
+}
+
+function setupCards(column, cards) {
+    cards.forEach(function (card) {
+        var c = new Card(card.id, card.name, card.bootcamp_kanban_column_id);
+        column.$element.children('ol').append(c.$element);
+        initSortable();
+    });
+}
+
+
+
 initSortable();
-	    // listener for adding new column.
-	    // simple append new object to DOM
-	
